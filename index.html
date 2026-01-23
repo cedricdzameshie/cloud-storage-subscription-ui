@@ -1,75 +1,115 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dr Membrane Cloud Storage</title>
-    <link rel="stylesheet" type="text/css" href="PricingCP.css" />
+    <link rel="stylesheet" href="PricingCP.css" />
   </head>
+
   <body>
-    <div class="container">
-      <h1 class="heading">Dr Membrane Cloud Storage</h1>
-      <div class="toggle">
-        <span class="toggle-label">Monthly</span>
-        <label class="switch">
-          <input type="checkbox" id="toggle-switch" />
-          <span class="slider round"></span>
-        </label>
-        <span class="toggle-label">Annually</span>
+    <main class="page">
+      <div class="container">
+        <header class="pricing-header">
+          <h1 class="heading">Dr Membrane Cloud Storage</h1>
+          <p class="subheading">
+            Clean, fast storage plans — built for real-world use.
+          </p>
+
+          <!-- Billing Toggle -->
+          <div class="billing-toggle" aria-label="Billing frequency">
+            <span class="billing-label" data-billing="monthly">Monthly</span>
+
+            <label class="switch" for="billing-switch">
+              <input type="checkbox" id="billing-switch" />
+              <span class="slider"></span>
+            </label>
+
+            <span class="billing-label" data-billing="annual">Annual</span>
+            <span class="billing-badge">Save 20%</span>
+          </div>
+        </header>
+
+        <!-- Pricing Grid -->
+        <section class="pricing-grid" aria-label="Pricing plans">
+          <!-- Basic -->
+          <article class="plan-card" data-plan="basic">
+            <header class="plan-head">
+              <h2 class="plan-name">Basic</h2>
+              <p class="plan-note">For personal storage</p>
+            </header>
+
+            <div class="plan-price">
+              <p class="price price--monthly">$2.99 <span>/mo</span></p>
+              <p class="price price--annual hidden">$28.70 <span>/yr</span></p>
+            </div>
+
+            <ul class="plan-features">
+              <li>500 GB storage</li>
+              <li>Sync 2 devices</li>
+              <li>Send up to 50 GB</li>
+              <li>Virus & malware scan</li>
+            </ul>
+
+            <a class="plan-cta" href="SignUp.html?plan=basic">Choose Basic</a>
+          </article>
+
+          <!-- Advanced (Recommended) -->
+          <article class="plan-card plan-card--featured" data-plan="advanced">
+            <div class="plan-badge">Most Popular</div>
+
+            <header class="plan-head">
+              <h2 class="plan-name">Advanced</h2>
+              <p class="plan-note">Best value</p>
+            </header>
+
+            <div class="plan-price">
+              <p class="price price--monthly">$5.99 <span>/mo</span></p>
+              <p class="price price--annual hidden">$57.50 <span>/yr</span></p>
+            </div>
+
+            <ul class="plan-features">
+              <li>1 TB storage</li>
+              <li>Sync 5 devices</li>
+              <li>Send up to 100 GB</li>
+              <li>Virus & malware scan</li>
+            </ul>
+
+            <a class="plan-cta" href="SignUp.html?plan=advanced"
+              >Choose Advanced</a
+            >
+          </article>
+
+          <!-- Professional -->
+          <article class="plan-card" data-plan="pro">
+            <header class="plan-head">
+              <h2 class="plan-name">Professional</h2>
+              <p class="plan-note">For teams & heavy usage</p>
+            </header>
+
+            <div class="plan-price">
+              <p class="price price--monthly">$9.99 <span>/mo</span></p>
+              <p class="price price--annual hidden">$95.90 <span>/yr</span></p>
+            </div>
+
+            <ul class="plan-features">
+              <li>2 TB storage</li>
+              <li>Sync 10 devices</li>
+              <li>Send up to 200 GB</li>
+              <li>Virus & malware scan</li>
+            </ul>
+
+            <a class="plan-cta" href="SignUp.html?plan=pro">Choose Pro</a>
+          </article>
+        </section>
+
+        <!-- Optional: bottom CTA (keep if you like) -->
+        <footer class="pricing-footer">
+          <a class="signup-button" href="SignUp.html">Continue to Sign Up</a>
+          <p class="footer-note">No credit card required to start.</p>
+        </footer>
       </div>
-
-      <div class="pricing-component">
-        <div class="pricing-option basic">
-          <h2>Basic</h2>
-          <p class="price monthly-price">$2.99/month</p>
-          <p class="price annual-price hidden">$28.70/year</p>
-          <ul>
-            <li>500 GB Storage</li>
-            <hr class="line-separator" />
-            <li>Sync 2 Devices</li>
-            <hr class="line-separator" />
-            <li>Send up to 50 GB</li>
-            <hr class="line-separator" />
-            <li>Virus & Malware Scan</li>
-            <hr class="line-separator" />
-          </ul>
-        </div>
-
-        <div class="pricing-option professional">
-          <h2>Professional</h2>
-          <p class="price monthly-price">$9.99/month</p>
-          <p class="price annual-price hidden">$95.90/year</p>
-          <ul>
-            <li>2 TB Storage</li>
-            <hr class="line-separator" />
-            <li>Sync 10 Devices</li>
-            <hr class="line-separator" />
-            <li>Send up to 200 GB</li>
-            <hr class="line-separator" />
-            <li>Virus & Malware Scan</li>
-            <hr class="line-separator" />
-          </ul>
-        </div>
-
-        <div class="pricing-option advanced">
-          <h2>Advanced</h2>
-          <p class="price monthly-price">$5.99/month</p>
-          <p class="price annual-price hidden">$57.50/year</p>
-          <ul>
-            <li>1 TB Storage</li>
-            <hr class="line-separator" />
-            <li>Sync 5 Devices</li>
-            <hr class="line-separator" />
-            <li>Send up to 100 GB</li>
-            <hr class="line-separator" />
-            <li>Virus & Malware Scan</li>
-            <hr class="line-separator" />
-          </ul>
-        </div>
-      </div>
-
-      <div class="signup-box">
-        <a href="SignUp.html" class="signup-button">SIGN UP</a>
-      </div>
-    </div>
+    </main>
 
     <script src="PricingCP.js"></script>
   </body>
