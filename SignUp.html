@@ -1,78 +1,201 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <title>Sign Up Page</title>
-    <link rel="stylesheet" type="text/css" href="SignUp.css" />
-  </head>
-  <body>
-    <div class="container">
-      <h1 class="heading">Create an Account</h1>
-      <div class="signup-form">
-        <form id="signup-form">
-          <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required />
-          </div>
-          <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required />
-            <p id="username-error" class="error-message"></p>
-            <!-- Error message for username -->
-          </div>
-          <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required />
-            <p id="password-error" class="error-message"></p>
-            <!-- Error message for password -->
-          </div>
-          <div class="form-group">
-            <label for="secret-question">Secret Question:</label>
-            <select id="secret-question" name="secret-question">
-              <option value="">Select a secret question</option>
-              <option value="1">What is your mother's maiden name?</option>
-              <option value="2">What city were you born in?</option>
-              <option value="3">What is your favorite book?</option>
-              <option value="4">What was the name of your first pet?</option>
-              <option value="5">What is your favorite movie?</option>
-            </select>
-            <p id="secret-question-error" class="error-message"></p>
-            <!-- Error message for secret question -->
-          </div>
-          <div class="form-group">
-            <label for="secret-answer">Secret Answer:</label>
-            <input
-              type="text"
-              id="secret-answer"
-              name="secret-answer"
-              required
-            />
-            <p id="secret-answer-error" class="error-message"></p>
-            <!-- Error message for secret answer -->
-          </div>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Account | Dr Membrane Cloud Storage</title>
 
-          <div class="form-group">
-            <label for="plan">Select a Plan:</label>
-            <select id="plan" name="plan" required>
-              <option value="" disabled selected>Select a plan</option>
-              <option value="basic-monthly">Basic - $2.99/month</option>
-              <option value="professional-monthly">
-                Professional - $9.99/month
-              </option>
-              <option value="advanced-monthly">Advanced - $5.99/month</option>
-              <option value="basic-yearly">Basic - $28.70/year</option>
-              <option value="professional-yearly">
-                Professional - $95.90/year
-              </option>
-              <option value="advanced-yearly">Advanced - $57.50/year</option>
-            </select>
-            <p id="plan-error" class="error-message"></p>
-            <!-- Error message for plan -->
-          </div>
-          <button type="submit" id="submit-btn">Sign Up</button>
-          <p id="error-message" class="error-message"></p>
-        </form>
+    <!-- Keep the same font you used elsewhere -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="SignUp.css" />
+  </head>
+
+  <body>
+    <main class="page">
+      <div class="container">
+        <header class="signup-header">
+          <a class="back-link" href="index.html">← Back to Pricing</a>
+
+          <h1 class="heading">Create your account</h1>
+          <p class="subheading">
+            Start with your plan, then finish setup. No payment required for
+            this demo.
+          </p>
+        </header>
+
+        <section class="signup-grid">
+          <!-- Left: Form -->
+          <article class="card signup-card">
+            <form id="signup-form" novalidate>
+              <div class="field">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="you@example.com"
+                  autocomplete="email"
+                  required
+                />
+                <p class="error" data-error-for="email"></p>
+              </div>
+
+              <div class="field">
+                <label for="username">Display name</label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  placeholder="Cedric"
+                  autocomplete="nickname"
+                />
+                <p class="hint">Optional — shown in your dashboard.</p>
+              </div>
+
+              <div class="field">
+                <label for="password">Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Minimum 8 characters"
+                  autocomplete="new-password"
+                  required
+                />
+                <p class="error" data-error-for="password"></p>
+              </div>
+
+              <div class="field">
+                <label for="confirmPassword">Confirm password</label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  placeholder="Re-enter password"
+                  autocomplete="new-password"
+                  required
+                />
+                <p class="error" data-error-for="confirmPassword"></p>
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="field">
+                <label>Billing</label>
+                <div
+                  class="segmented"
+                  role="radiogroup"
+                  aria-label="Billing frequency"
+                >
+                  <label class="segmented__option">
+                    <input
+                      type="radio"
+                      name="billing"
+                      value="monthly"
+                      checked
+                    />
+                    <span>Monthly</span>
+                  </label>
+
+                  <label class="segmented__option">
+                    <input type="radio" name="billing" value="annual" />
+                    <span>Annual <em class="save-badge">Save 20%</em></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="field">
+                <label>Plan</label>
+
+                <!-- plan cards (selected via JS, also clickable) -->
+                <div
+                  class="plan-picker"
+                  role="radiogroup"
+                  aria-label="Choose plan"
+                >
+                  <label class="plan-option">
+                    <input type="radio" name="plan" value="basic" required />
+                    <div class="plan-meta">
+                      <strong>Basic</strong>
+                      <span class="muted">Personal storage</span>
+                    </div>
+                    <div class="plan-price" data-price="basic">$2.99/mo</div>
+                  </label>
+
+                  <label class="plan-option plan-option--featured">
+                    <input type="radio" name="plan" value="advanced" required />
+                    <div class="plan-meta">
+                      <strong>Advanced</strong>
+                      <span class="muted">Best value</span>
+                    </div>
+                    <div class="plan-price" data-price="advanced">$5.99/mo</div>
+                  </label>
+
+                  <label class="plan-option">
+                    <input type="radio" name="plan" value="pro" required />
+                    <div class="plan-meta">
+                      <strong>Professional</strong>
+                      <span class="muted">Teams & heavy usage</span>
+                    </div>
+                    <div class="plan-price" data-price="pro">$9.99/mo</div>
+                  </label>
+                </div>
+
+                <p class="error" data-error-for="plan"></p>
+              </div>
+
+              <div class="field checkbox">
+                <label class="checkline">
+                  <input type="checkbox" id="terms" required />
+                  <span>
+                    I agree this is a demo and the account won’t be stored.
+                  </span>
+                </label>
+                <p class="error" data-error-for="terms"></p>
+              </div>
+
+              <button class="btn btn--primary submit" type="submit">
+                Create account
+              </button>
+
+              <p class="fineprint">
+                This project demonstrates form UX + state handling (not real
+                auth).
+              </p>
+            </form>
+          </article>
+
+          <!-- Right: Summary -->
+          <aside class="card summary-card" aria-label="Selected plan summary">
+            <h2 class="summary-title">Summary</h2>
+
+            <div class="summary-row">
+              <span>Plan</span>
+              <strong id="summaryPlan">—</strong>
+            </div>
+
+            <div class="summary-row">
+              <span>Billing</span>
+              <strong id="summaryBilling">Monthly</strong>
+            </div>
+
+            <div class="summary-row">
+              <span>Price</span>
+              <strong id="summaryPrice">$—</strong>
+            </div>
+
+            <div class="summary-note">
+              You can switch plan/billing before submitting.
+            </div>
+          </aside>
+        </section>
       </div>
-    </div>
+    </main>
 
     <script src="SignUp.js"></script>
   </body>

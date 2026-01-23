@@ -1,83 +1,149 @@
-// Get DOM elements
-const signupForm = document.getElementById("signup-form");
-const usernameInput = document.getElementById("username");
-const emailInput = document.getElementById("email");
-const passwordInput = document.getElementById("password");
-const secretQuestionInput = document.getElementById("secret-question");
-const secretAnswerInput = document.getElementById("secret-answer");
-const planInput = document.getElementById("plan");
+// ===== Helpers =====
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => document.querySelectorAll(sel);
 
-// Form submission
-signupForm.addEventListener("submit", function (e) {
+const form = $("#signup-form");
+
+const summaryPlan = $("#summaryPlan");
+const summaryBilling = $("#summaryBilling");
+const summaryPrice = $("#summaryPrice");
+
+const prices = {
+  monthly: { basic: "$2.99/mo", advanced: "$5.99/mo", pro: "$9.99/mo" },
+  annual: { basic: "$28.70/yr", advanced: "$57.50/yr", pro: "$95.90/yr" },
+};
+
+function setError(key, msg) {
+  const el = document.querySelector(`[data-error-for="${key}"]`);
+  if (el) el.textContent = msg || "";
+}
+
+function getQueryPlan() {
+  const params = new URLSearchParams(window.location.search);
+  const plan = params.get("plan");
+  if (!plan) return null;
+  const normalized = plan.toLowerCase();
+  if (["basic", "advanced", "pro"].includes(normalized)) return normalized;
+  return null;
+}
+
+function getSelectedBilling() {
+  return (
+    document.querySelector('input[name="billing"]:checked')?.value || "monthly"
+  );
+}
+
+function getSelectedPlan() {
+  return document.querySelector('input[name="plan"]:checked')?.value || "";
+}
+
+function updateSummary() {
+  const billing = getSelectedBilling();
+  const plan = getSelectedPlan();
+
+  summaryBilling.textContent = billing === "annual" ? "Annual" : "Monthly";
+  summaryPlan.textContent = plan
+    ? plan.charAt(0).toUpperCase() + plan.slice(1)
+    : "—";
+
+  if (plan) {
+    summaryPrice.textContent = prices[billing][plan];
+  } else {
+    summaryPrice.textContent = "$—";
+  }
+
+  // Update the visible prices on plan cards
+  document.querySelectorAll("[data-price]").forEach((node) => {
+    const key = node.getAttribute("data-price");
+    node.textContent = prices[billing][key];
+  });
+}
+
+function preselectPlan() {
+  const planFromUrl = getQueryPlan();
+  if (!planFromUrl) return;
+
+  const radio = document.querySelector(
+    `input[name="plan"][value="${planFromUrl}"]`,
+  );
+  if (radio) radio.checked = true;
+}
+
+// ===== Events =====
+window.addEventListener("load", () => {
+  preselectPlan();
+  updateSummary();
+});
+
+$$('input[name="billing"]').forEach((r) =>
+  r.addEventListener("change", updateSummary),
+);
+
+$$('input[name="plan"]').forEach((r) =>
+  r.addEventListener("change", () => {
+    setError("plan", "");
+    updateSummary();
+  }),
+);
+
+// ===== Validation + Submit =====
+form.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  // Get form values
-  const username = usernameInput.value;
-  const email = emailInput.value;
-  const password = passwordInput.value;
-  const secretQuestion = secretQuestionInput.value;
-  const secretAnswer = secretAnswerInput.value;
-  const plan = planInput.value;
+  // reset errors
+  ["email", "password", "confirmPassword", "plan", "terms"].forEach((k) =>
+    setError(k, ""),
+  );
 
-  // Perform form validation
-  if (!username || !password || !secretQuestion || !secretAnswer || !plan) {
-    // Display error message
-    const errorMessage = document.getElementById("error-message");
-    errorMessage.textContent = "Please fill in all fields.";
-    return;
+  const email = $("#email").value.trim();
+  const password = $("#password").value;
+  const confirmPassword = $("#confirmPassword").value;
+  const plan = getSelectedPlan();
+  const terms = $("#terms").checked;
+
+  let ok = true;
+
+  // Basic email check
+  if (!email) {
+    setError("email", "Email is required.");
+    ok = false;
+  } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+    setError("email", "Enter a valid email address.");
+    ok = false;
   }
 
-  // Validate username criteria
-  const usernamePattern = /^[a-zA-Z0-9.]+$/;
-  const disallowedCharacters = ["&", "=", "_", "'", "-", "+", ",", "<", ">"];
-
-  if (!usernamePattern.test(username)) {
-    // Display error message
-    const errorMessage = document.getElementById("error-message");
-    errorMessage.textContent =
-      "Invalid username format. Usernames can only contain letters (a-z), numbers (0-9), and periods (.), and cannot contain disallowed characters.";
-    return;
+  if (!password) {
+    setError("password", "Password is required.");
+    ok = false;
+  } else if (password.length < 8) {
+    setError("password", "Use at least 8 characters.");
+    ok = false;
   }
 
-  for (let i = 0; i < disallowedCharacters.length; i++) {
-    if (username.includes(disallowedCharacters[i])) {
-      // Display error message
-      const errorMessage = document.getElementById("error-message");
-      errorMessage.textContent =
-        "Invalid username format. Usernames cannot contain disallowed characters.";
-      return;
-    }
+  if (!confirmPassword) {
+    setError("confirmPassword", "Please confirm your password.");
+    ok = false;
+  } else if (confirmPassword !== password) {
+    setError("confirmPassword", "Passwords do not match.");
+    ok = false;
   }
 
-  // Validate password criteria
-  if (password.length < 8) {
-    // Display error message
-    const errorMessage = document.getElementById("error-message");
-    errorMessage.textContent = "Password should be at least 8 characters long.";
-    return;
+  if (!plan) {
+    setError("plan", "Please select a plan.");
+    ok = false;
   }
 
-  // Validate email criteria
-  const emailPattern = /^\S+@\S+\.\S+$/;
-  if (!emailPattern.test(email)) {
-    // Display error message
-    const errorMessage = document.getElementById("error-message");
-    errorMessage.textContent = "Invalid email format.";
-    return;
+  if (!terms) {
+    setError("terms", "Please accept the demo terms.");
+    ok = false;
   }
 
-  // Reset error message
-  const errorMessage = document.getElementById("error-message");
-  errorMessage.textContent = "";
+  if (!ok) return;
 
-  // Log form values
-  console.log("Username:", username);
-  console.log("Email:", email);
-  console.log("Password:", password);
-  console.log("Secret Question:", secretQuestion);
-  console.log("Secret Answer:", secretAnswer);
-  console.log("Plan:", plan);
+  // Demo redirect (you can change the filename if yours is different)
+  const billing = getSelectedBilling();
 
-  // Redirect to confirmation page
-  window.location.href = "Confirmation.html";
+  // pass along what they selected
+  const url = `Confirmation.html?plan=${encodeURIComponent(plan)}&billing=${encodeURIComponent(billing)}&email=${encodeURIComponent(email)}`;
+  window.location.href = url;
 });
