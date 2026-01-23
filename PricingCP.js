@@ -1,28 +1,32 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const billingSwitch = document.getElementById("billing-switch");
+const toggleSwitch = document.getElementById("billing-switch");
 
-  const monthlyPrices = document.querySelectorAll(".price--monthly");
-  const annualPrices = document.querySelectorAll(".price--annual");
+const monthlyPrices = document.querySelectorAll(".price--monthly");
+const annualPrices = document.querySelectorAll(".price--annual");
 
-  if (!billingSwitch) {
-    console.error("Missing #billing-switch in HTML.");
-    return;
+function setBilling(isAnnual) {
+  if (isAnnual) {
+    // Show annual prices
+    annualPrices.forEach((el) => el.classList.remove("hidden"));
+
+    // Strike + mute monthly prices
+    monthlyPrices.forEach((el) => {
+      el.classList.add("price--muted");
+    });
+  } else {
+    // Hide annual prices
+    annualPrices.forEach((el) => el.classList.add("hidden"));
+
+    // Restore monthly prices
+    monthlyPrices.forEach((el) => {
+      el.classList.remove("price--muted");
+    });
   }
+}
 
-  function setBilling(isAnnual) {
-    // Show annual, hide monthly (or vice versa)
-    monthlyPrices.forEach((el) => el.classList.toggle("hidden", isAnnual));
-    annualPrices.forEach((el) => el.classList.toggle("hidden", !isAnnual));
+// Initial load
+setBilling(toggleSwitch.checked);
 
-    // Optional: line-through monthly when annual selected
-    monthlyPrices.forEach((el) => el.classList.toggle("is-striked", isAnnual));
-  }
-
-  // Initial render
-  setBilling(billingSwitch.checked);
-
-  // Toggle
-  billingSwitch.addEventListener("change", () => {
-    setBilling(billingSwitch.checked);
-  });
+// Toggle handler
+toggleSwitch.addEventListener("change", () => {
+  setBilling(toggleSwitch.checked);
 });

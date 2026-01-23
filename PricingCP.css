@@ -306,6 +306,14 @@ input:checked + .slider::before {
   font-size: 28px;
   font-weight: 800;
   letter-spacing: 0.2px;
+  transition:
+    opacity 0.2s ease,
+    text-decoration 0.2s ease;
+}
+
+.price--muted {
+  opacity: 0.45;
+  text-decoration: line-through;
 }
 
 .price span {
