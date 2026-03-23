@@ -1,21 +1,89 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <title>Confirmation Page</title>
-    <link rel="stylesheet" type="text/css" href="Confirmation.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Confirmation • Dr Membrane Cloud Storage</title>
+    <link rel="stylesheet" href="Confirmation.css" />
   </head>
+
   <body>
-    <div class="container">
-      <div class="icon-container">
-        <img src="confirm.png" alt="Icon" class="icon" />
+    <main class="page">
+      <div class="container">
+        <section class="confirm-card" aria-label="Signup confirmation">
+          <div class="confirm-icon" aria-hidden="true">
+            <img src="confirm.svg" alt="" />
+          </div>
+
+          <header class="confirm-header">
+            <h1>Account created 🎉</h1>
+            <p class="muted">
+              This is a demo checkout flow — no real account was created.
+            </p>
+          </header>
+
+          <div class="confirm-grid">
+            <div class="confirm-panel">
+              <h2>Confirmation</h2>
+              <div class="kv">
+                <span>Confirmation ID</span>
+                <div class="kv-right">
+                  <code id="confirmId">—</code>
+                  <button class="copy-btn" id="copyIdBtn" type="button">
+                    Copy
+                  </button>
+                </div>
+              </div>
+
+              <div class="kv">
+                <span>Email</span>
+                <span id="emailValue">—</span>
+              </div>
+
+              <div class="kv">
+                <span>Plan</span>
+                <span id="planValue">—</span>
+              </div>
+
+              <div class="kv">
+                <span>Billing</span>
+                <span id="billingValue">—</span>
+              </div>
+
+              <div class="kv">
+                <span>Next renewal</span>
+                <span id="renewalValue">—</span>
+              </div>
+            </div>
+
+            <div class="confirm-panel">
+              <h2>Next steps</h2>
+              <ul class="steps">
+                <li>Check your email for a confirmation message</li>
+                <li>Sign in and upload your first file</li>
+                <li>Enable 2FA to protect your account</li>
+              </ul>
+
+              <p class="small muted">
+                Tip: For portfolios, flows like this show real UX thinking.
+              </p>
+            </div>
+          </div>
+
+          <div class="confirm-actions">
+            <a class="btn" href="index.html">Back to Pricing</a>
+            <a class="btn btn--primary" href="SignUp.html"
+              >Create Another Demo</a
+            >
+          </div>
+
+          <p class="footer-note muted">
+            If you have issues, contact support@drmembrane.dev (demo).
+          </p>
+        </section>
       </div>
-      <div class="confirmation-box">
-        <h1 class="heading">Thank you for signing up!</h1>
-        <p class="message">
-          Your account has been created successfully. A confirmation email will
-          be sent to you.
-        </p>
-      </div>
-    </div>
+    </main>
+
+    <script src="Confirmation.js"></script>
   </body>
 </html>
